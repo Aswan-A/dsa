@@ -2,4 +2,7 @@
     "code-runner.executorMap": {
         "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt.out && $dir$fileNameWithoutExt.out"
     },
+    "files.associations": {
+        "Q11.C": "cpp"
+    },
 }
