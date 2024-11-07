@@ -1,0 +1,1 @@
+// Define a maximum degree for polynomials
