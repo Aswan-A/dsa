@@ -1,31 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_USERS 100 // Maximum number of users that can be in the network
+#define MAX_USERS 100 
 
-// Node structure to represent each friend in the adjacency list
+
 typedef struct Node {
     int userId;
     struct Node* next;
 } Node;
 
-// Graph structure to represent the social network
+
 typedef struct Graph {
     int numUsers;
-    Node* adjList[MAX_USERS]; // Array of pointers for each user's friends list
+    Node* adjList[MAX_USERS]; 
 } Graph;
 
-// Function to create a new user in the network (node in the graph)
+
 Graph* createGraph(int numUsers) {
     Graph* graph = (Graph*)malloc(sizeof(Graph));
     graph->numUsers = numUsers;
     for (int i = 0; i < numUsers; i++) {
-        graph->adjList[i] = NULL; // Initialize each adjacency list to NULL
+        graph->adjList[i] = NULL; 
     }
     return graph;
 }
 
-// Function to create a new friend node
+
 Node* createNode(int userId) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->userId = userId;
@@ -33,25 +33,25 @@ Node* createNode(int userId) {
     return newNode;
 }
 
-// Function to add a friendship (edge) between two users
+
 void addFriendship(Graph* graph, int user1, int user2) {
     if (user1 >= graph->numUsers || user2 >= graph->numUsers) {
         printf("Error: User ID out of bounds.\n");
         return;
     }
 
-    // Add an edge from user1 to user2
+    
     Node* newNode = createNode(user2);
     newNode->next = graph->adjList[user1];
     graph->adjList[user1] = newNode;
 
-    // Since this is an undirected graph, add an edge from user2 to user1
+    
     newNode = createNode(user1);
     newNode->next = graph->adjList[user2];
     graph->adjList[user2] = newNode;
 }
 
-// Function to display the social network as an adjacency list
+
 void displayGraph(Graph* graph) {
     for (int i = 0; i < graph->numUsers; i++) {
         Node* temp = graph->adjList[i];
@@ -64,7 +64,7 @@ void displayGraph(Graph* graph) {
     }
 }
 
-// Function to free memory used by the graph
+
 void freeGraph(Graph* graph) {
     for (int i = 0; i < graph->numUsers; i++) {
         Node* temp = graph->adjList[i];
@@ -77,11 +77,10 @@ void freeGraph(Graph* graph) {
     free(graph);
 }
 
-// Menu function to interact with the graph
+
 void menu(Graph* graph) {
     int choice, user1, user2;
-    while (1) {
-        printf("\n--- Social Network Menu ---\n");
+    while (1) {                                                 
         printf("1. Add Friendship\n");
         printf("2. Display Network\n");
         printf("3. Exit\n");
@@ -99,7 +98,7 @@ void menu(Graph* graph) {
                 break;
 
             case 2:
-                printf("\n--- Social Network ---\n");
+                
                 displayGraph(graph);
                 break;
 
@@ -114,22 +113,22 @@ void menu(Graph* graph) {
     }
 }
 
-// Main function
+
 int main() {
     int numUsers;
     printf("Enter the number of users in the network: ");
     scanf("%d", &numUsers);
 
-    // Validate number of users
+   
     if (numUsers > MAX_USERS || numUsers < 1) {
         printf("Error: Number of users should be between 1 and %d.\n", MAX_USERS);
         return 1;
     }
 
-    // Create the graph
+   
     Graph* socialNetwork = createGraph(numUsers);
 
-    // Show menu to interact with the social network
+    
     menu(socialNetwork);
 
     return 0;

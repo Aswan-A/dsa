@@ -8,7 +8,7 @@ void selectionSort(int arr[], int n) {
                 minIdx = j;
             }
         }
-        // Swap the found minimum element with the first element
+      
         int temp = arr[minIdx];
         arr[minIdx] = arr[i];
         arr[i] = temp;

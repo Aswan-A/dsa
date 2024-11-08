@@ -1,19 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 100  // Maximum number of elements in the heap
+#define MAX 100  
 
 int heap[MAX];
 int heapSize = 0;
 
-// Function prototypes
+
 void insert(int element);
 void deleteAtIndex(int index);
 void minHeapify(int i);
 int findKthSmallest(int k);
 void displayHeap();
 
-// Utility functions
+
 int parent(int i) { return (i - 1) / 2; }
 int leftChild(int i) { return 2 * i + 1; }
 int rightChild(int i) { return 2 * i + 2; }
@@ -24,7 +24,7 @@ void swap(int *x, int *y) {
     *y = temp;
 }
 
-// Insert an element into the min-heap
+
 void insert(int element) {
     if (heapSize == MAX) {
         printf("Heap overflow! Cannot insert element.\n");
@@ -40,7 +40,7 @@ void insert(int element) {
     }
 }
 
-// Delete element at a specific index from the min-heap
+
 void deleteAtIndex(int index) {
     if (index < 0 || index >= heapSize) {
         printf("Invalid index!\n");
@@ -52,7 +52,7 @@ void deleteAtIndex(int index) {
     minHeapify(index);
 }
 
-// Min-heapify function to maintain the min-heap property
+
 void minHeapify(int i) {
     int smallest = i;
     int left = leftChild(i);
@@ -71,7 +71,7 @@ void minHeapify(int i) {
     }
 }
 
-// Find the k-th smallest element in the min-heap
+
 int findKthSmallest(int k) {
     if (k <= 0 || k > heapSize) {
         printf("Invalid value of k!\n");
@@ -83,7 +83,7 @@ int findKthSmallest(int k) {
         tempHeap[i] = heap[i];
     }
 
-    // Sort the copied array to find the k-th smallest element
+
     for (int i = 0; i < heapSize - 1; i++) {
         for (int j = i + 1; j < heapSize; j++) {
             if (tempHeap[i] > tempHeap[j]) {
@@ -92,10 +92,10 @@ int findKthSmallest(int k) {
         }
     }
 
-    return tempHeap[k - 1];  // k-th smallest element in sorted order
+    return tempHeap[k - 1];  
 }
 
-// Display the elements of the heap
+
 void displayHeap() {
     if (heapSize == 0) {
         printf("Heap is empty.\n");
@@ -109,7 +109,7 @@ void displayHeap() {
     printf("\n");
 }
 
-// Main function to drive the menu
+
 int main() {
     int choice, element, index, k;
 

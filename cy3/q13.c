@@ -1,78 +1,89 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#define MAX 100
+#define MAX_NODES 100
 
-int adj[MAX][MAX];  // Adjacency matrix
-int visited[MAX];   // Array to track visited nodes
-int n;              // Number of nodes in the graph
 
-// DFS function
-void dfs(int v) {
-    printf("%d ", v);
-    visited[v] = 1;
+typedef struct Graph {
+    int adj[MAX_NODES][MAX_NODES]; 
+    int numNodes;                   
+} Graph;
 
-    for (int i = 0; i < n; i++) {
-        if (adj[v][i] == 1 && !visited[i]) {
-            dfs(i);
+
+void initGraph(Graph *graph, int nodes) {
+    graph->numNodes = nodes;
+    
+
+    for (int i = 0; i < nodes; i++) {
+        for (int j = 0; j < nodes; j++) {
+            graph->adj[i][j] = 0;
         }
     }
 }
 
-// Function to create the adjacency matrix
-void createGraph() {
-    printf("Enter the number of nodes: ");
-    scanf("%d", &n);
 
-    printf("Enter the adjacency matrix:\n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            scanf("%d", &adj[i][j]);
+void addEdge(Graph *graph, int u, int v) {
+    graph->adj[u][v] = 1;
+    graph->adj[v][u] = 1;  
+}
+
+
+void dfs(Graph *graph, int node, bool visited[MAX_NODES]) {
+    visited[node] = true;
+    printf("%d ", node);
+
+
+    for (int i = 0; i < graph->numNodes; i++) {
+        if (graph->adj[node][i] == 1 && !visited[i]) {
+            dfs(graph, i, visited);
         }
     }
 }
 
-// Function to reset visited array
-void resetVisited() {
-    for (int i = 0; i < n; i++) {
-        visited[i] = 0;
-    }
-}
-
-// Menu-driven program
 int main() {
-    int start, choice;
+    Graph graph;
+    int nodes, edges, u, v, choice, startNode;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &nodes);
+
+    initGraph(&graph, nodes);
+
+    printf("Enter number of edges: ");
+    scanf("%d", &edges);
+
+    for (int i = 0; i < edges; i++) {
+        printf("Enter edge (u, v): ");
+        scanf("%d %d", &u, &v);
+        addEdge(&graph, u, v);
+    }
 
     while (1) {
-        printf("\nGraph Traversal using DFS\n");
-        printf("1. Create Graph\n");
-        printf("2. Perform DFS\n");
-        printf("3. Exit\n");
+        printf("\nMenu:\n");
+        printf("1. Perform DFS\n");
+        printf("2. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
-                createGraph();
-                break;
-            case 2:
-                printf("Enter the starting node for DFS: ");
-                scanf("%d", &start);
-                if (start >= 0 && start < n) {
-                    resetVisited();
-                    printf("DFS Traversal starting from node %d: ", start);
-                    dfs(start);
+                printf("Enter starting node for DFS: ");
+                scanf("%d", &startNode);
+                {
+                    bool visited[MAX_NODES] = { false };
+                    printf("DFS starting from node %d: ", startNode);
+                    dfs(&graph, startNode, visited);
                     printf("\n");
-                } else {
-                    printf("Invalid starting node!\n");
                 }
                 break;
-            case 3:
+            case 2:
                 exit(0);
             default:
-                printf("Invalid choice! Please try again.\n");
+                printf("Invalid choice. Please try again.\n");
         }
     }
 
     return 0;
 }
+
